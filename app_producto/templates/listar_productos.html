@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block titulo %}Productos | Sistema de Productos{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Productos Registrados</h2>
+    <a href="{% url 'app_producto:crear_producto' %}" class="btn btn-primary">+ Agregar Producto</a>
+</div>
+
+<ul class="artist-grid">
+    {% for producto in productos %}
+    <li class="artist-card">
+        <a href="{% url 'app_producto:detalle_producto' producto.id_producto %}">
+            {% if producto.foto_producto %}
+                <img src="{{ producto.foto_producto.url }}" alt="{{ producto.nombre_producto }}" class="artist-img">
+            {% else %}
+                <div class="artist-placeholder">📦</div>
+            {% endif %}
+            <h3>{{ producto.nombre_producto }}</h3>
+            <p class="artist-nationality">Categoría: {{ producto.categoria }}</p>
+            <p class="artist-nationality">Precio: ${{ producto.precio_unitario }}</p>
+            <p class="artist-nationality">Stock: {{ producto.stock_actual }}</p>
+            <p class="artist-nationality">Vence: {{ producto.fecha_vencimiento }}</p>
+        </a>
+    </li>
+    {% empty %}
+    <li class="no-artists">No hay productos registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

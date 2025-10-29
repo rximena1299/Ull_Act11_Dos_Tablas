@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block titulo %}Categorías | Sistema de Productos{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Categorías Registradas</h2>
+    <a href="{% url 'app_producto:crear_categoria' %}" class="btn btn-primary">+ Agregar Categoría</a>
+</div>
+
+<ul class="artist-grid">
+    {% for categoria in categorias %}
+    <li class="artist-card">
+        <a href="{% url 'app_producto:detalle_categoria' categoria.id_categoria %}">
+            <div class="artist-placeholder">📑</div>
+            <h3>{{ categoria.nombre }}</h3>
+            <p class="artist-nationality">Producto: {{ categoria.id_producto.nombre_producto }}</p>
+            <p class="artist-nationality">Descripción: {{ categoria.descripcion|truncatewords:10 }}</p>
+        </a>
+    </li>
+    {% empty %}
+    <li class="no-artists">No hay categorías registradas.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

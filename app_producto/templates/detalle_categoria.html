@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ categoria.nombre }} | Sistema de Productos{% endblock %}
+
+{% block contenido %}
+<article class="artist-detail">
+    <div class="artist-banner">
+        <div class="detail-placeholder">📑</div>
+        <div class="artist-info">
+            <h2>{{ categoria.nombre }}</h2>
+            <p><strong>Producto:</strong> 
+                <a href="{% url 'app_producto:detalle_producto' categoria.id_producto.id_producto %}">
+                    {{ categoria.id_producto.nombre_producto }}
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_producto:editar_categoria' categoria.id_categoria %}" class="btn btn-secondary">✏️ Editar Categoría</a>
+        <a href="{% url 'app_producto:borrar_categoria' categoria.id_categoria %}" class="btn btn-danger">🗑️ Borrar Categoría</a>
+    </div>
+
+    <section class="songs-section">
+        <div class="section-header">
+            <h2>Información de la Categoría</h2>
+        </div>
+        
+        <div class="reservation-details">
+            <p><strong>Descripción:</strong></p>
+            <p>{{ categoria.descripcion }}</p>
+            
+            <p><strong>Contenido:</strong></p>
+            <p>{{ categoria.contenido }}</p>
+        </div>
+        
+        <div class="actions">
+            <a href="{% url 'app_producto:detalle_producto' categoria.id_producto.id_producto %}" class="btn">
+                📦 Ver producto asociado
+            </a>
+        </div>
+    </section>
+</article>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block titulo %}Eliminar Producto | Sistema de Productos{% endblock %}
+
+{% block contenido %}
+<div class="confirmation-container">
+    <h2>¿Estás seguro de que quieres borrar "{{ producto.nombre_producto }}"?</h2>
+    
+    <div class="reservation-details">
+        <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
+        <p><strong>Precio:</strong> ${{ producto.precio_unitario }}</p>
+        <p><strong>Stock:</strong> {{ producto.stock_actual }}</p>
+        <p><strong>Categorías asociadas:</strong> {{ producto.categorias.count }}</p>
+    </div>
+    
+    {% if producto.categorias.count > 0 %}
+    <div class="warning-alert">
+        <p>⚠️ Este producto tiene {{ producto.categorias.count }} categoría(s) asociadas. Si lo borras, también se eliminarán todas sus categorías.</p>
+    </div>
+    {% endif %}
+    
+    <p class="warning">Esta acción no se puede deshacer.</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">Sí, Borrar</button>
+            <a href="{% url 'app_producto:detalle_producto' producto.id_producto %}" class="btn">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

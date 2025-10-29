@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ titulo }} | Sistema de Productos{% endblock %}
+
+{% block contenido %}
+<div class="form-container">
+    <h2>{{ titulo }}</h2>
+    {% if producto %}
+    <div class="client-info">
+        <p><strong>Producto:</strong> {{ producto.nombre_producto }}</p>
+    </div>
+    {% endif %}
+    
+    <form method="post" class="form-styled">
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <div class="error-list">
+                {% for error in field.errors %}
+                <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if field.help_text %}
+            <div class="help-text">{{ field.help_text }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Guardar Categoría</button>
+            {% if producto %}
+            <a href="{% url 'app_producto:detalle_producto' producto.id_producto %}" class="btn">Cancelar</a>
+            {% else %}
+            <a href="{% url 'app_producto:listar_categorias' %}" class="btn">Cancelar</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

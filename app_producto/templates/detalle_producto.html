@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ producto.nombre_producto }} | Sistema de Productos{% endblock %}
+
+{% block contenido %}
+<article class="artist-detail">
+    <div class="artist-banner">
+        {% if producto.foto_producto %}
+            <img src="{{ producto.foto_producto.url }}" alt="Foto de {{ producto.nombre_producto }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">📦</div>
+        {% endif %}
+        <div class="artist-info">
+            <h2>{{ producto.nombre_producto }}</h2>
+            <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
+            <p><strong>Precio Unitario:</strong> ${{ producto.precio_unitario }}</p>
+            <p><strong>Stock Actual:</strong> {{ producto.stock_actual }} unidades</p>
+            <p><strong>Fecha de Vencimiento:</strong> {{ producto.fecha_vencimiento }}</p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_producto:editar_producto' producto.id_producto %}" class="btn btn-secondary">✏️ Editar Producto</a>
+        <a href="{% url 'app_producto:crear_categoria_producto' producto.id_producto %}" class="btn btn-primary">📑 Agregar Categoría</a>
+        <a href="{% url 'app_producto:borrar_producto' producto.id_producto %}" class="btn btn-danger">🗑️ Borrar Producto</a>
+    </div>
+
+    <section class="songs-section">
+        <div class="section-header">
+            <h2>Categorías de {{ producto.nombre_producto }}</h2>
+            <a href="{% url 'app_producto:crear_categoria_producto' producto.id_producto %}" class="btn btn-small">+ Agregar</a>
+        </div>
+        
+        {% if producto.categorias.all %}
+        <div class="reservations-list">
+            {% for categoria in producto.categorias.all %}
+            <div class="reservation-item">
+                <div class="reservation-info">
+                    <h4>{{ categoria.nombre }}</h4>
+                    <p><strong>Descripción:</strong> {{ categoria.descripcion|truncatewords:20 }}</p>
+                    <p><strong>Contenido:</strong> {{ categoria.contenido|truncatewords:30 }}</p>
+                </div>
+                <div class="reservation-actions">
+                    <a href="{% url 'app_producto:editar_categoria' categoria.id_categoria %}" class="btn btn-small">✏️ Editar</a>
+                    <a href="{% url 'app_producto:borrar_categoria' categoria.id_categoria %}" class="btn btn-small btn-danger">🗑️ Borrar</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>📑 Este producto no tiene categorías registradas.</p>
+            <a href="{% url 'app_producto:crear_categoria_producto' producto.id_producto %}" class="btn btn-primary">Agregar primera categoría</a>
+        </div>
+        {% endif %}
+    </section>
+</article>
+{% endblock %}
